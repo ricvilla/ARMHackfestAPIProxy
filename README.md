@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ### Autoscale a Linux VM Scale Set ###
 
 The following template deploys a Linux VM Scale Set integrated with Azure autoscale
@@ -17,3 +18,7 @@ The Autoscale rules are configured as follows
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
+=======
+# ARMHackfestAPIProxy
+Azure Resource Manager Hackfest API Proxy
+>>>>>>> 057426f1fc870e26046f0d66c9a745bd95354943
