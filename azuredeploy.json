@@ -96,7 +96,8 @@
     "networkApiVersion": "2016-03-30",
     "storageApiVersion": "2015-06-15",
     "insightsApiVersion": "2015-04-01",
-    "extensionsAPIVersion": "2016-04-30-preview"
+    "extensionsApiVersion": "2016-04-30-preview",
+    "nsgApiVersion": "2015-06-15"
   },
   "resources": [
     {
@@ -106,7 +107,7 @@
       "dependsOn":[
         "[concat('Microsoft.Network/networkSecurityGroups/',parameters('kongNSGName'))]"
       ],
-      "apiVersion": "[variables('networkApiVersion')]",
+      "apiVersion": "[variables('networkApiVersion')]", 
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -127,7 +128,7 @@
       }
     },
       {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('nsgApiVersion')]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('kongNSGName')]",
       "location": "[parameters('location')]",
