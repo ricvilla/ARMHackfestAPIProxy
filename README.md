@@ -1,5 +1,5 @@
 
-# Azure VMSS :heavy_plus_sign: Kong
+# Kong on Azure VM Scale Sets
 
 
 ## Overview
