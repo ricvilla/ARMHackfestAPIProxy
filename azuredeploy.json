@@ -45,8 +45,26 @@
       "metadata": {
         "description": "Admin password on all VMs."
       }
-    }
-  },
+    },
+    "sshKeyData": {
+      "type": "string",
+      "metadata": {
+        "description": "ssh key used to connect through the shell."
+      }
+    },
+    "dnsNameForPublicIP": {
+      "type": "string",
+      "metadata": {
+        "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+      }
+    },
+    "kongNSGName": {
+      "type": "string",
+      "defaultValue": "Kong_NSG",
+      "metadata": {
+        "description": "This is the name of the Network Security Group that will be assign to the deployment"
+      }
+    },
   "variables": {
     "namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
     "longNamingInfix": "[toLower(parameters('vmssName'))]",
@@ -76,13 +94,17 @@
     "computeApiVersion": "2016-04-30-preview",
     "networkApiVersion": "2016-03-30",
     "storageApiVersion": "2015-06-15",
-    "insightsApiVersion": "2015-04-01"
+    "insightsApiVersion": "2015-04-01",
+    "extensionsAPIVersion": "2016-04-30-preview"
   },
   "resources": [
     {
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[variables('virtualNetworkName')]",
       "location": "[resourceGroup().location]",
+      "dependsOn":[
+        "[concat('Microsoft.Network/networkSecurityGroups/',parameters('kongNSGName'))]"
+      ],
       "apiVersion": "[variables('networkApiVersion')]",
       "properties": {
         "addressSpace": {
@@ -94,7 +116,61 @@
           {
             "name": "[variables('subnetName')]",
             "properties": {
-              "addressPrefix": "[variables('subnetPrefix')]"
+              "addressPrefix": "[variables('subnetPrefix')]",
+              "networkSecurityGroups":{
+                "id":"[resourceId('Microsoft.Network/networkSecurityGroups',parameters('kongNSGName'))]"
+              }
+            }
+          }
+        ]
+      }
+    },
+      {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('kongNSGName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": [
+           {
+            "name": "ssh",
+            "properties": {
+              "description": "Inbound proxy port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Inbound"
+            }
+          },{
+            "name": "proxy_port",
+            "properties": {
+              "description": "Inbound proxy port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8000",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1000,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "admin_api_rule",
+            "properties": {
+              "description": "Inbound Api Port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8001",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1001,
+              "direction": "Inbound"
             }
           }
         ]
