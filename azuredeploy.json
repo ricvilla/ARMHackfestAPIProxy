@@ -64,7 +64,8 @@
       "metadata": {
         "description": "This is the name of the Network Security Group that will be assign to the deployment"
       }
-    },
+    }
+  },
   "variables": {
     "namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
     "longNamingInfix": "[toLower(parameters('vmssName'))]",
@@ -293,29 +294,29 @@
       }
     },
     {
-              "name": "install",
-              "type": "extensions",
-              "location": "[variables('location')]",
-              "apiVersion": "[variables('extensionApiVersion')]",
-              "dependsOn": [
-                  "[concat('Microsoft.Compute/virtualMachineScaleSets/', variables('vmssName'))]"
-              ],
-              "tags": {
-                  "displayName": "install"
-              },
-              "properties": {
-                  "publisher": "Microsoft.OSTCExtensions",
-                  "type": "CustomScriptForLinux",
-                  "typeHandlerVersion": "1.2",
-                  "autoUpgradeMinorVersion": true,
-                  "settings": {
-                      "fileUris": [
-                          "https://raw.githubusercontent.com/ricvilla/ARMHackfestAPIProxy/kongscript.sh"
-                      ],
-                      "commandToExecute": "bash kongscript.sh"
-                  }
-              }
+      "name": "install",
+      "type": "extensions",
+      "location": "[variables('location')]",
+      "apiVersion": "[variables('extensionApiVersion')]",
+        "dependsOn": [
+          "[concat('Microsoft.Compute/virtualMachineScaleSets/', variables('vmssName'))]"
+          ],
+          "tags": {
+            "displayName": "install"
+            },
+          "properties": {
+            "publisher": "Microsoft.OSTCExtensions",
+            "type": "CustomScriptForLinux",
+            "typeHandlerVersion": "1.2",
+            "autoUpgradeMinorVersion": true,
+              "settings": {
+                "fileUris": [
+                  "https://raw.githubusercontent.com/ricvilla/ARMHackfestAPIProxy/kongscript.sh"
+                ],
+              "commandToExecute": "bash kongscript.sh"
+            }
           }
+      },
     {
       "type": "Microsoft.Insights/autoscaleSettings",
       "apiVersion": "[variables('insightsApiVersion')]",
