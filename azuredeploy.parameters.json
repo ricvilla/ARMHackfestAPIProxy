@@ -19,6 +19,18 @@
     },
     "adminPassword": {
       "value": "GEN-PASSWORD"
+    },
+	  "kongNSGName" : {
+		  "value":"kongnsg1"
+	  },
+    "sshKeyData": {
+      "value": "put your ssh key here"
+    },
+    "newStorageAccountName": {
+      "value": "kongtemplate1"
+    },
+    "dnsNameForPublicIP": {
+      "value": "kongtemplate1"
     }
   }
 }
