@@ -3,7 +3,7 @@
 
 
 ## Overview
-This ARM template can be used to spin Kong running in Ubuntu on an AzureVM scale set. 
+This ARM template can be used to spin up Kong running in Ubuntu on an AzureVM scale set. 
 
 The template deploys a Linux VMSS with a desired count of VMs in the scale set. Once the VM Scale Sets is deployed, kong is installed with the use of a custom script extension.
 
@@ -20,4 +20,4 @@ The Autoscale rules are configured as follows
 ## References
 This template has been derived from two other ARM templates:
 1. Azure VMSS Ubuntu quick start template: https://github.com/Azure/azure-quickstart-templates/tree/master/201-vmss-ubuntu-autoscale
-2. jdevillards Kong-Azure VM ARM template: https://github.com/jdevillard/kong-azure 
+2. jdevillards Kong-Azure VM ARM template: https://github.com/jdevillard/kong-azure
